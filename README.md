@@ -24,8 +24,11 @@ Contiene todo lo necesario para inicializar el motor relacional (diseñado en 3F
 * **`crearDb.sql`**: Script principal DDL/DML. Crea la base de datos `RamirezCarsService_DB`, estructura todas las tablas con sus respectivas claves foráneas (Integridad Referencial) y carga datos iniciales de prueba.
 * *(Otros scripts auxiliares para limpiar o reiniciar las tablas en entornos de testeo).*
 
----
 
+### 3. Carpeta `bin/` (compilados y jar ejecutable)
+Contiene todos los .class y el jar RamirezCarsService.jar ejecutable. 
+
+---
 ## ⚙️ Tecnologías Implementadas
 
 * **Lenguaje:** Java SE
