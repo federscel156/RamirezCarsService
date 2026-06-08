@@ -6,6 +6,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/* * =======================================================================================
+ * CAPA DE PRESENTACIÓN (VISTA) - APERTURA DE OT
+ * =======================================================================================
+ * CONCEPTO APLICADO: Pantalla transaccional principal. Cumple con la captura de datos 
+ * complejos (JTextArea para el diagnóstico). Utiliza el controlador instanciado para 
+ * respetar el encapsulamiento de las reglas de negocio.
+ * =======================================================================================
+ */
+
 public class OrdenTrabajoView extends JFrame {
 
     private JTextField txtPatente, txtKilometraje;

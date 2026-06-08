@@ -5,32 +5,41 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/* * =======================================================================================
+/* =======================================================================================
  * CAPA DE PRESENTACIÓN (VISTA) - MENÚ PRINCIPAL
  * =======================================================================================
  * CONCEPTO APLICADO: Esta clase actúa como el "Dashboard" o enrutador principal del 
- * patrón MVC. Su funcionalidad para el sistema es proveer una interfaz gráfica centralizada 
- * desde la cual el Encargado del Taller puede acceder a todos los Casos de Uso.
- * * CUMPLIMIENTO DE RÚBRICA: 
- * 1. "Disponibilidad de un menú de selección": Implementado mediante JFrame y botones.
- * 2. "Estructuras condicionales": Uso de switch para gestionar las opciones del menú.
- * 3. "Creación de objetos": Instanciación en tiempo de ejecución de las vistas secundarias.
+ * patrón arquitectónico MVC. Su funcionalidad para el sistema es proveer una interfaz 
+ * gráfica centralizada desde la cual el Encargado del Taller puede coordinar y disparar 
+ * los flujos de ejecución operativos.
+ * * CUMPLIMIENTO DE LA RÚBRICA: 
+ * 1. "Disponibilidad de un menú de selección": Implementado mediante JFrame y botones Swing.
+ * 2. "Estructuras condicionales": Uso de switch jerárquico para gobernar eventos de comando.
+ * 3. "Creación de objetos": Instanciación dinámica en memoria de las pantallas secundarias.
  * =======================================================================================
  */
 public class DashboardPrincipal extends JFrame {
 
-    private JButton btnRegistroCliente, btnAgenda, btnOrdenTrabajo, btnTareas, btnCierreOT, btnReportes, btnSalir;
+    private JButton btnRegistroCliente, btnAgenda, btnOrdenTrabajo, btnTareas, btnAlertas, btnFichaPDF, btnReportes, btnSalir;
 
-    // CONSTRUCTOR: Inicializa los componentes visuales en memoria al arrancar el programa
+    /*
+     * Constructor de la clase principal encargado de inicializar los objetos visuales,
+     * configurar las dimensiones del contenedor Standalone y definir el Layout raíz.
+     */
     public DashboardPrincipal() {
         setTitle("Ramirez Cars Service - Sistema Técnico Automotriz");
-        setSize(900, 650);
+        setSize(950, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); 
         setLayout(new BorderLayout());
 
-        // --- PANEL LATERAL (MENÚ DE NAVEGACIÓN) ---
-        JPanel panelMenu = new JPanel(new GridLayout(8, 1, 10, 10));
+        /*
+         * Bloque de construcción del Menú de Navegación Lateral (Panel Oeste).
+         * Diseña la barra de herramientas fija con un esquema de alto contraste para 
+         * mitigar la fatiga visual en entornos de taller mecánico, organizando de forma 
+         * correlativa las opciones comerciales de la suite.
+         */
+        JPanel panelMenu = new JPanel(new GridLayout(9, 1, 10, 10));
         panelMenu.setBackground(new Color(44, 62, 80)); 
         panelMenu.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
 
@@ -39,24 +48,29 @@ public class DashboardPrincipal extends JFrame {
         lblMenuTitulo.setForeground(Color.WHITE);
         panelMenu.add(lblMenuTitulo);
 
-        // Instanciación de las opciones correspondientes a los Casos de Uso del PUD
-        btnRegistroCliente = new JButton("1. Registrar Cliente (CU01)");
-        btnAgenda = new JButton("2. Gestión de Agenda (CU02)");
-        btnOrdenTrabajo = new JButton("3. Apertura de OT (CU03)");
-        btnTareas = new JButton("4. Registrar Tareas (CU04)");
-        btnCierreOT = new JButton("5. Cerrar OT (CU05)");
-        btnReportes = new JButton("6. Reportes Operativos (CU07)");
-        btnSalir = new JButton("7. Salir del Sistema");
+        btnRegistroCliente = new JButton("1. Registro de Cliente y Vehículo");
+        btnAgenda = new JButton("2. Gestión de Agenda");
+        btnOrdenTrabajo = new JButton("3. Apertura de OT");
+        btnTareas = new JButton("4. Registro de Tareas");
+        btnAlertas = new JButton("5. Alertas Preventivas");
+        btnFichaPDF = new JButton("6. Finalizar OT y Emitir Ficha PDF");
+        btnReportes = new JButton("7. Reportes Estadísticos");
+        btnSalir = new JButton("8. Salir del Sistema");
 
         panelMenu.add(btnRegistroCliente);
         panelMenu.add(btnAgenda);
         panelMenu.add(btnOrdenTrabajo);
         panelMenu.add(btnTareas);
-        panelMenu.add(btnCierreOT);
+        panelMenu.add(btnAlertas);
+        panelMenu.add(btnFichaPDF);
         panelMenu.add(btnReportes);
         panelMenu.add(btnSalir);
 
-        // --- PANEL CENTRAL (BIENVENIDA) ---
+        /*
+         * Bloque de disposición de bienvenida central (Panel Central).
+         * Inicializa un área de visualización neutra que actúa como fondo del Dashboard,
+         * proporcionando identidad de marca al sistema informático standalone.
+         */
         JPanel panelCentral = new JPanel(new GridBagLayout());
         panelCentral.setBackground(new Color(236, 240, 241));
         JLabel lblBienvenida = new JLabel("Historial Clínico Automotriz - Prototipo Operacional");
@@ -66,9 +80,11 @@ public class DashboardPrincipal extends JFrame {
         add(panelMenu, BorderLayout.WEST);
         add(panelCentral, BorderLayout.CENTER);
 
-        /* * LÓGICA DE EVENTOS (CONTROL DE FLUJO)
-         * Se captura el clic del usuario y se utiliza una estructura 'switch' para 
-         * derivar el control a la Vista correspondiente, instanciando el objeto necesario.
+        /*
+         * Orquestador Central de Eventos y Enrutamiento (ActionListener).
+         * Captura de forma atómica los estímulos de acción del operario, extrayendo el comando 
+         * de texto crudo y procesándolo secuencialmente mediante bifurcaciones condicionales 
+         * para instanciar y desplegar la ventana correspondiente a la regla de negocio solicitada.
          */
         ActionListener menuListener = new ActionListener() {
             @Override
@@ -76,7 +92,7 @@ public class DashboardPrincipal extends JFrame {
                 String comando = e.getActionCommand();
 
                 switch (comando) {
-                    case "1. Registrar Cliente":
+                    case "1. Registro de Cliente y Vehículo":
                         new ClienteView().setVisible(true); 
                         break;
                     case "2. Gestión de Agenda":
@@ -85,39 +101,56 @@ public class DashboardPrincipal extends JFrame {
                     case "3. Apertura de OT":
                         new OrdenTrabajoView().setVisible(true);
                         break;
-                    case "4. Registrar Tareas":
+                    case "4. Registro de Tareas":
                         new TareaView().setVisible(true);
                         break;
-                    case "5. Cerrar OT":
-                        new CierreOTView().setVisible(true);
+                    case "5. Alertas Preventivas":
+                        new AlertaView().setVisible(true);
                         break;
-                    case "6. Reportes Operativos":
+                    case "6. Finalizar OT y Emitir Ficha PDF":
+                        new FichaServicioView().setVisible(true);
+                        break;
+                    case "7. Reportes Estadísticos":
                         new ReporteView().setVisible(true);
                         break;
-                    case "7. Salir del Sistema":
-                        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Salir", JOptionPane.YES_NO_OPTION);
-                        if (confirmacion == JOptionPane.YES_OPTION) System.exit(0);
+                    case "8. Salir del Sistema":
+                        int confirmacion = JOptionPane.showConfirmDialog(null, 
+                            "¿Desea cerrar el prototipo operacional?", 
+                            "Confirmar Salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            System.exit(0);
+                        }
                         break;
                 }
             }
         };
 
-        // Asignación del listener a los botones
+        /*
+         * Bloque de Vinculación de Escuchadores.
+         * Enlaza la lógica delegada del Listener único a cada componente de comando 
+         * instanciado, habilitando la interactividad del menú de selección.
+         */
         btnRegistroCliente.addActionListener(menuListener);
         btnAgenda.addActionListener(menuListener);
         btnOrdenTrabajo.addActionListener(menuListener);
         btnTareas.addActionListener(menuListener);
-        btnCierreOT.addActionListener(menuListener);
+        btnAlertas.addActionListener(menuListener);
+        btnFichaPDF.addActionListener(menuListener);
         btnReportes.addActionListener(menuListener);
         btnSalir.addActionListener(menuListener);
     }
 
+    /*
+     * Hilo Principal de Entrada (Main).
+     * Delegación segura del arranque del sistema dentro del Event Dispatch Thread (EDT) 
+     * mediante hilos asíncronos nativos para evitar bloqueos gráficos en el entorno local.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
                 new DashboardPrincipal().setVisible(true);
             } catch (Exception ex) {
-                System.err.println("Error crítico: " + ex.getMessage());
+                System.err.println("Error crítico de infraestructura gráfica: " + ex.getMessage());
             }
         });
     }

@@ -13,13 +13,15 @@ import java.sql.SQLException;
  */
 public class TurnoDAO {
     public boolean agendarTurno(Turno turno) {
-        String sql = "INSERT INTO Turno (patente, fecha, motivo, estado) VALUES (?, ?, ?, 'Pendiente')";
+        // Se agrega hora_inicio al script
+        String sql = "INSERT INTO Turno (patente, fecha, hora_inicio, motivo, estado) VALUES (?, ?, ?, ?, 'Pendiente')";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, turno.getPatente());
             stmt.setDate(2, new java.sql.Date(turno.getFecha().getTime()));
-            stmt.setString(3, turno.getMotivo());
+            stmt.setString(3, turno.getHoraInicio()); // Se envía la hora
+            stmt.setString(4, turno.getMotivo());
             
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

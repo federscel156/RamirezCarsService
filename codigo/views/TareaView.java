@@ -4,6 +4,15 @@ import controllers.TareaController;
 import javax.swing.*;
 import java.awt.*;
 
+/* * =======================================================================================
+ * CAPA DE PRESENTACIÓN (VISTA) - GESTIÓN OPERATIVA
+ * =======================================================================================
+ * CONCEPTO APLICADO: Interfaces secundarias que extienden el flujo de la Orden de Trabajo.
+ * Demuestran el uso de estructuras de control (ActionListeners) y la reutilización 
+ * de la conexión a la base de datos sin acoplamiento gráfico.
+ * =======================================================================================
+ */
+
 public class TareaView extends JFrame {
     private JTextField txtNroOT;
     private JTextArea txtDescripcion, txtInsumos;

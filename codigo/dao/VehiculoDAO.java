@@ -5,10 +5,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/* =======================================================================================
+ * CAPA DE ACCESO A DATOS (PERSISTENCIA - VEHÍCULO)
+ * =======================================================================================
+ * CONCEPTO APLICADO: Componente DAO para la entidad Vehículo. 
+ * Implementa JDBC nativo para aislar las sentencias DML de la aplicación.
+ * Asegura la persistencia completa del objeto, incluyendo su fecha de alta en el sistema.
+ * =======================================================================================
+ */
 public class VehiculoDAO {
 
     public boolean registrarVehiculo(Vehiculo vehiculo) {
-        // Sentencia SQL respetando tu esquema de base de datos
+        // Sentencia SQL alineada con la base de datos actualizada (incluye fecha_registro)
         String sql = "INSERT INTO Vehiculo (patente, marca, modelo, anio, vin, id_cliente, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = ConexionBD.conectar();
@@ -21,7 +29,7 @@ public class VehiculoDAO {
             stmt.setString(5, vehiculo.getVin());
             stmt.setInt(6, vehiculo.getIdCliente());
             
-            // Conversión de fecha
+            // Conversión de la fecha del objeto Java a formato java.sql.Date
             java.sql.Date sqlDate = new java.sql.Date(vehiculo.getFechaRegistro().getTime());
             stmt.setDate(7, sqlDate);
             
@@ -29,7 +37,6 @@ public class VehiculoDAO {
             return filasAfectadas > 0;
 
         } catch (SQLException e) {
-            // Manejo de excepciones requerido por la rúbrica
             System.err.println("Error en VehiculoDAO al registrar: " + e.getMessage());
             return false;
         }

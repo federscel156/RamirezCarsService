@@ -2,9 +2,7 @@ package controllers;
 
 import dao.TurnoDAO;
 import models.Turno;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 /* * =======================================================================================
  * CAPA LÓGICA DE NEGOCIO (CONTROLADOR) - CU02
@@ -27,40 +25,28 @@ public class TurnoController {
         this.turnoDAO = new TurnoDAO();
     }
 
-    public String procesarRegistroTurno(String patente, String fechaStr, String motivo) {
+    public String procesarRegistroTurno(String patente, String fechaStr, String horaStr, String motivo) {
         
-        // Estructuras de control para validación de campos obligatorios
-        if (patente == null || patente.trim().isEmpty()) {
-            return "Error: La patente del vehículo es obligatoria para agendar un turno.";
-        }
-        if (fechaStr == null || fechaStr.trim().isEmpty()) {
-            return "Error: Debe ingresar una fecha estimada.";
-        }
-        if (motivo == null || motivo.trim().isEmpty()) {
-            return "Error: El motivo del turno es obligatorio.";
-        }
+        if (patente == null || patente.trim().isEmpty()) { return "Error: Patente obligatoria."; }
+        if (fechaStr == null || fechaStr.trim().isEmpty()) { return "Error: Fecha obligatoria."; }
+        if (horaStr == null || horaStr.trim().isEmpty()) { return "Error: Hora obligatoria (HH:MM)."; }
+        if (motivo == null || motivo.trim().isEmpty()) { return "Error: Motivo obligatorio."; }
 
         try {
-            // Parseo de la fecha ingresada por el usuario al formato objeto Date de Java
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-            formatoFecha.setLenient(false); // Validar que la fecha sea real
-            Date fechaTurno = formatoFecha.parse(fechaStr);
+            java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            formatoFecha.setLenient(false);
+            java.util.Date fechaTurno = formatoFecha.parse(fechaStr);
 
-            // Instanciación del objeto de dominio
-            Turno nuevoTurno = new Turno(patente, fechaTurno, motivo);
+            // Instanciamos con la hora
+            Turno nuevoTurno = new Turno(patente, fechaTurno, horaStr, motivo);
 
-            // Delegación de la persistencia a la capa de Acceso a Datos
-            if (turnoDAO.agendarTurno(nuevoTurno)) {
-                return "OK";
-            } else {
-                return "Error: No se pudo agendar. Verifique que la patente exista en el sistema.";
-            }
+            if (turnoDAO.agendarTurno(nuevoTurno)) { return "OK"; } 
+            else { return "Error al agendar. ¿La patente existe?"; }
 
-        } catch (ParseException e) {
-            // Manejo de excepciones (Requisito de la rúbrica)
-            return "Error: El formato de la fecha es incorrecto. Utilice YYYY-MM-DD (ej: 2026-06-15).";
+        } catch (java.text.ParseException e) {
+            return "Error: Formato de fecha incorrecto (YYYY-MM-DD).";
         } catch (Exception e) {
-            return "Error inesperado en el sistema: " + e.getMessage();
+            return "Error: " + e.getMessage();
         }
     }
 }

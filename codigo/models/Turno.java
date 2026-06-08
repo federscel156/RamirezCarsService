@@ -9,15 +9,18 @@ import java.util.Date;
 public class Turno {
     private String patente;
     private Date fecha;
+    private String horaInicio;
     private String motivo;
 
-    public Turno(String patente, Date fecha, String motivo) {
+    public Turno(String patente, Date fecha, String horaInicio,String motivo) {
         this.patente = patente;
         this.fecha = fecha;
+        this.horaInicio = horaInicio;
         this.motivo = motivo;
     }
 
     public String getPatente() { return patente; }
     public Date getFecha() { return fecha; }
+    public String getHoraInicio() { return horaInicio; }
     public String getMotivo() { return motivo; }
 }
