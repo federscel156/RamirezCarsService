@@ -20,7 +20,8 @@ CREATE TABLE Vehiculo (
     modelo VARCHAR(50) NOT NULL,
     anio INT,
     vin VARCHAR(17),
-    id_cliente INT,
+    id_cliente INT NOT NULL,
+    fecha_registro DATE DEFAULT (CURRENT_DATE),
     FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
 );
 
