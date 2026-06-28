@@ -52,5 +52,21 @@ Para poder correr este sistema en un entorno local:
 3. **Ejecutar:**
    * Inicie la aplicación compilando y ejecutando el archivo principal: `codigo/views/DashboardPrincipal.java`.
 
+
+## 🚀 Compilar y ejecutar el JAR
+Para generar el archivo RamirezCarsService.jar con la clase principal DashboardPrincipal.java.
+
+1. **Desde la raíz del proyecto, compilamos:**
+  * cd {Ubicacion del proyecto}/RamirezCarsService
+  * mkdir -p bin/classes
+  * javac -d bin/classes $(find codigo -name "*.java") -cp "codigo/libs/mysql-connector-j-9.6.0.jar:codigo/libs/itextpdf-5.5.13.3.jar"
+2. **Creacion del Jar incluyendo clases y dependencias:**
+  * printf 'Manifest-Version: 1.0\nMain-Class: views.DashboardPrincipal\nClass-Path: ../codigo/libs/mysql-connector-j-9.6.0.jar ../codigo/libs/itextpdf-5.5.13.3.jar\n' > /tmp/ramirez-manifest.mf
+  * jar cfm bin/RamirezCarsService.jar /tmp/ramirez-manifest.mf -C bin/classes .
+3. **Ejecutar:**
+  * java -jar bin/RamirezCarsService.jar
+
+Si la ventana no aparece, revisa que Java esté instalado y que la base de datos esté creada con crearDb.sql.
+
 ---
 *Desarrollado para la materia Seminario de Práctica de Informática - Universidad Siglo 21.*
